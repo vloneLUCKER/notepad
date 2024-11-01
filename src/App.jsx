@@ -8,10 +8,10 @@ import LeftPanel from "./layouts/LeftPanel/LeftPanel";
 import Body from "./layouts/Body/Body";
 import Header from "./components/Header/Header";
 import JournalForm from "./components/JournalForm/JournalForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  // const items = [
+  // const data = [
   //   // {
   //   //   id: 1,
   //   //   title: "Подготовка к обновлению курсов",
@@ -31,6 +31,7 @@ function App() {
   //   //   text: "Создал первую заметку, чтобы ...",
   //   // },
   // ];
+
   const rendJournal = (el) => {
     return (
       <CardButton key={el.id}>
@@ -38,7 +39,27 @@ function App() {
       </CardButton>
     );
   };
+
   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem("data"));
+    if (items) {
+      setData(
+        items.map((item) => ({
+          ...item,
+          date: new Date(item.date),
+        }))
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (data.length) {
+      localStorage.setItem("data", JSON.stringify(data));
+    }
+  }, [data]);
+
   const addItem = (e) => {
     setData((oldData) => [
       ...oldData,
