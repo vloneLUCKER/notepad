@@ -38,6 +38,7 @@ export function formReducer(state, action) {
       return {
         ...state,
         values: INITIAL_STATE.values,
+        isFormReadyToSubmit: false,
       };
   }
 }

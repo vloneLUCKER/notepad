@@ -1,0 +1,35 @@
+.label-span {
+  width: 100px;
+}
+
+.input {
+  border: none;
+  background: none;
+
+  font-family: "Source Sans 3", serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17.6px;
+  text-align: left;
+
+  color: rgba(255, 255, 255, 1);
+}
+
+.input-title {
+  border: none;
+  background: none;
+  border-bottom: 1px solid #333333;
+
+  font-family: "Source Sans 3", serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40.22px;
+  text-align: left;
+
+  color: rgba(255, 255, 255, 1);
+}
+
+.invalid {
+  border: 1px solid red;
+  background-color: rgba(111, 16, 16, 0.5);
+}
