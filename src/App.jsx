@@ -8,7 +8,8 @@ import LeftPanel from "./layouts/LeftPanel/LeftPanel";
 import Body from "./layouts/Body/Body";
 import Header from "./components/Header/Header";
 import JournalForm from "./components/JournalForm/JournalForm";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext, UserContextProvider } from "./context/user.context.jsx";
 
 function App() {
   // const data = [
@@ -33,14 +34,17 @@ function App() {
   // ];
 
   const rendJournal = (el) => {
-    return (
-      <CardButton key={el.id}>
-        <JournalItem title={el.title} text={el.text} date={el.date} />
-      </CardButton>
-    );
+    if (userId === userId) {
+      return (
+        <CardButton key={el.id}>
+          <JournalItem title={el.title} text={el.text} date={el.date} />
+        </CardButton>
+      );
+    }
   };
 
   const [data, setData] = useState([]);
+  const { userId } = useContext(UserContext);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("data"));
@@ -68,6 +72,7 @@ function App() {
         text: e.text,
         date: new Date(e.date),
         tag: e.tag,
+        userId: e.userId,
         id: oldData.length > 0 ? Math.max(...oldData.map((i) => i.id)) + 1 : 1,
       },
     ]);
@@ -77,23 +82,25 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <LeftPanel>
-        <Header />
-        <JournalList>
-          <JournalAddButton />
+    <UserContextProvider>
+      <div className="app">
+        <LeftPanel>
+          <Header />
+          <JournalList>
+            <JournalAddButton />
 
-          {data.length === 0 ? (
-            <p>Записей пока нет, добавьте первую</p>
-          ) : (
-            data.sort(sortItems).map(rendJournal)
-          )}
-        </JournalList>
-      </LeftPanel>
-      <Body>
-        <JournalForm clicked={addItem} />
-      </Body>
-    </div>
+            {data.length === 0 ? (
+              <p>Записей пока нет, добавьте первую</p>
+            ) : (
+              data.sort(sortItems).map(rendJournal)
+            )}
+          </JournalList>
+        </LeftPanel>
+        <Body>
+          <JournalForm clicked={addItem} />
+        </Body>
+      </div>
+    </UserContextProvider>
   );
 }
 
